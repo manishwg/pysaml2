@@ -624,8 +624,14 @@ class SamlBase(ExtensionContainer):
     def get_prefix_map(self, elements):
         uri_set = self.get_ns_map(elements, set())
         prefix_map = {}
+        ns_prefix_count = 0
+        oasis_ns_inv = {v: k for k, v in OASIS_DEFAULT_NS_PREFIXES.items()}
         for uri in sorted(uri_set):
-            prefix_map["encas%d" % len(prefix_map)] = uri
+            if uri in oasis_ns_inv:
+                prefix_map[oasis_ns_inv[uri]] = uri
+            else:    
+                prefix_map["ns%d" % ns_prefix_count] = uri
+                ns_prefix_count += 1
         return prefix_map
 
     def get_xml_string_with_self_contained_assertion_within_advice_encrypted_assertion(
