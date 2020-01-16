@@ -1614,7 +1614,15 @@ class SignatureType_(SamlBase):
     c_children['{http://www.w3.org/2000/09/xmldsig#}Object'] = ('object',
                                                                 [Object])
     c_cardinality['object'] = {"min": 0}
-    c_attributes['Id'] = ('id', 'ID', False)
+
+    # Temporary Solution solution for ID reperation in Encrypted Assertion
+    # cause schema validation Error.
+    # TODO: make ID unique in self Contained Encrypted Assertion respect
+    #       to entire Response.
+    # Solution: Comment `Id` attribute.
+
+    # c_attributes['Id'] = ('id', 'ID', False)  
+
     c_child_order.extend(['signed_info', 'signature_value', 'key_info',
                           'object'])
 
